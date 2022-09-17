@@ -1,12 +1,3 @@
-import { useEffect } from "react";
-
-useEffect(() => {
-    setIsLoading(true);
-    getCharacters()
-        .then((data) => setCharList(data.results))
-        .catch((err) => console.log(err))
-        .finally(() => setIsLoading(false));
-}, []);
 
 export const getCharacters = async () => {
     try {

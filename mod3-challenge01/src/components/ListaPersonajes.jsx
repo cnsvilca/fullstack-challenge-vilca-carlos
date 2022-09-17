@@ -1,33 +1,45 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { getCharacters } from "../service";
 import Personaje from "./Personaje";
 
 
 
 const ListaPersonajes = () => {
-    const [backgroundImage, setBackgroundImage] = useState('')
-    const [charList, setCharList ] = useState([])
-    const [isLoading, setIsLoading] = useState(false)
-    const lista = getCharacters()
-      return (
-        <>
-        
-    
-          <div className='page' style={{ backgroundImage }}>
-            {
-              lista.map(personaje => (
-                <Personaje
-                  key={personaje.id}
-                  name={personaje.name}
-                  status={personaje.status}
-                  image={personaje.image}
-                  species={personaje.species}
-                  setBackgroundImage={setBackgroundImage} />
-              ))
-            }
-          </div>
-        </>
-      )
+  const [listaPersonajes, setListaPersonajes] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
+  const [personajeSeleccionado, setPersonajeSeleccionado] = useState("")
+
+  useEffect(() => {
+    setIsLoading(true);
+    getCharacters()
+      .then((data) => setListaPersonajes(data.results))
+      .catch((err) => console.log(err))
+      .finally(() => setIsLoading(false));
+  }, []);
+
+  return (
+    <>
+      {
+        <div>
+          <img src={personajeSeleccionado} alt="No se Cargo la imagen"></img>
+        </div>
+      }
+      {isLoading && <h1 className="loading-text">Cargando...</h1>}
+      <div>
+        {
+          listaPersonajes.map(personaje => (
+            <Personaje
+              key={personaje.id}
+              name={personaje.name}
+              status={personaje.status}
+              image={personaje.image}
+              species={personaje.species}
+              setPersonajeSeleccionado={setPersonajeSeleccionado} />
+          ))
+        }
+      </div>
+    </>
+  )
 }
 
 export default ListaPersonajes;

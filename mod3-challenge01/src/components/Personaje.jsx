@@ -1,12 +1,13 @@
-const Personaje = ({ image, name, setBackgroundImage }) => {
+const Personaje = ({ name, status, species, image, setPersonajeSeleccionado }) => {
     return (
-      <button
-        className='color-square'
-        style={{ backgroundImage: image }}
-        onClick={() => setBackgroundImage(image)}
-      >
-        <h2>{name}</h2>
-      </button>
+      <>
+      <div className="color-square" onClick={() => {setPersonajeSeleccionado(image)}}>
+        <img src={image} alt={name} />
+        <p>Nombre: {name}</p>
+        <p>Especie: {species}</p>
+        <p>Estado: {status}</p>
+      </div>
+      </>
     )
   }
   export default Personaje;
